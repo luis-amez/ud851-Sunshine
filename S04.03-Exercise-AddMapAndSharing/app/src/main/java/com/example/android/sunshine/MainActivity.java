@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -221,8 +220,26 @@ public class MainActivity extends AppCompatActivity implements ForecastAdapterOn
             return true;
         }
 
-        // TODO (2) Launch the map when the map menu item is clicked
+        // DONE (2) Launch the map when the map menu item is clicked
+        if (id == R.id.action_map) {
+            openMap();
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void openMap() {
+        String addressString = "1600 Ampitheatre Parkway, CA";
+        Uri addressUri = new Uri.Builder()
+                .scheme("geo")
+                .path("0,0")
+                .appendQueryParameter("q", addressString)
+                .build();
+
+        Intent openMapIntent = new Intent(Intent.ACTION_VIEW, addressUri);
+        if (openMapIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(openMapIntent);
+        }
     }
 }
